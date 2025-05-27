@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secret Love Checker 💖</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff0f5;
+      text-align: center;
+      padding: 40px;
+    }
+    input, textarea {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+      width: 280px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    #log {
+      margin-top: 30px;
+      background: #fdf6f9;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: left;
+      max-width: 500px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💘 Love Match Test</h1>
+  <input type="text" id="name" placeholder="My Name"><br>
+  <input type="date" id="dob"><br>
+  <small>Use format YYYY-MM-DD</small><br>
+  <input type="text" id="birthplace" placeholder="My Birthplace"><br>
+  <textarea id="thoughts" placeholder="Your thoughts..." rows="4"></textarea><br>
+  <button onclick="checkMatch()">Check Match</button>
+
+  <div id="message"></div>
+  <div id="log"></div>
+
+  <script>
+    function checkMatch() {
+      const name = document.getElementById("name").value;
+      const dob = document.getElementById("dob").value;
+      const birthplace = document.getElementById("birthplace").value;
+      const thoughts = document.getElementById("thoughts").value;
+
+      const correctName = "John Doe";
+      const correctDOB = "2000-01-01";
+      const correctBirthplace = "New York";
+
+      const isMatch = name.toLowerCase() === correctName.toLowerCase() &&
+                      dob === correctDOB &&
+                      birthplace.toLowerCase() === correctBirthplace.toLowerCase();
+
+      document.getElementById("message").innerHTML = isMatch
+        ? "💖 100% Match! I love you so much! 💖"
+        : "😱 How shameful! It's not matching!";
+
+      document.getElementById("log").innerHTML = `
+        <h3>Your Entry:</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>DOB:</strong> ${dob}</p>
+        <p><strong>Birthplace:</strong> ${birthplace}</p>
+        <p><strong>Thoughts:</strong> ${thoughts}</p>
+      `;
+
+      // Optional logging to Google Sheet
+      fetch("YOUR_GOOGLE_SCRIPT_URL", {
+        method: "POST",
+        body: JSON.stringify({ name, dob, birthplace, thoughts }),
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+  </script>
+</body>
+</html>
